@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 
-import os
-import sys
-import time
-import random
+import os, sys, time, random
 
 class _word:
   def __init__(self, question, answer, phase=0, dueDate=0):
@@ -48,12 +45,10 @@ try:
     finally:
       termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
-  print("Detected POSIX system")
 except ImportError:
   # Non-POSIX. Return msvcrt's (Windows') getch.
   import msvcrt
   getch = msvcrt.getch
-  print("Detected Windows system")
 
 # Read arrow keys correctly
 def getKey():
