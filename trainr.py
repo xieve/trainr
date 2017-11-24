@@ -3,7 +3,7 @@
 import time, random, tui
 
 class _word:
-    def __init__(self, question, answer, phase=0, dueDate=0):
+    def __init__(self, question, answer, phase = 0, dueDate = 0):
         self.question = question
         self.answer = answer
         self.phase = phase
@@ -16,22 +16,24 @@ class _language:
         self.name = name
     def read(self):
         print("Reading " + self.name + " database...")
-        dbFile = open(self.name + ".csv", 'r', encoding="utf-8")
+        try:
+            dbFile = open(self.name + ".csv", 'r', encoding="utf-8")
+        except FileNotFoundError:
+            dbFile = open(self.name + ".csv", "w+", encoding="utf-8")
         dbRaw = dbFile.read().splitlines()
         for line in dbRaw:
             if line == '':
                 continue
             tmpLst = line.split(';')
-            # Import words in the right fields of the _word (question, answer, phase, dueDate)
-            self.words[tmpLst[0]] = _word(tmpLst[0], tmpLst[1], int(tmpLst[2]), int(tmpLst[3]))
+            # Import words in the right fields of the _word class init (question, answer, phase, dueDate)
+            self.words[tmpLst[0]] = _word(tmpLst[0], tmpLst[1], int(tmpLst[2]), float(tmpLst[3]))
         dbFile.close()
-        del dbRaw
     def save(self):
         outFile = open(self.name + ".csv", 'w', encoding="utf-8")
         for word in self.words.values():
-            outFile.write(word.question + ";" + word.answer + ";" + str(word.phase) + ";" + str(word.dueDate) + '\n')
+            outFile.write(word.question + ';' + word.answer + ';' + str(word.phase) + ';' + str(word.dueDate) + '\n')
 
-phaseToTime = [86400, 259200, 864000, 2592000, 7776000, 0]
+phaseToTime = [86400, 259200, 864000, 2592000, 7776000, float("inf")]
 db = {}
 
 random.seed()
@@ -115,5 +117,5 @@ elif cmd == 'a' or cmd == "add":
             break
         print("Answer:")
         givenAnswer = input("> ")
-        db[givenQuestion] = _word(givenQuestion, givenAnswer)
-        save(db)
+        language.words[givenQuestion] = _word(givenQuestion, givenAnswer)
+        language.save()
