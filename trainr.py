@@ -41,7 +41,10 @@ random.seed()
 # Read and parse config file
 tui.clear()
 print("Reading config file...")
-configFile = open("trainr.conf", 'r', encoding="utf-8")
+try:
+    configFile = open("trainr.conf", 'r', encoding="utf-8")
+except FileNotFoundError:
+    configFile = open("trainr.conf", "w+", encoding="utf-8")
 configRaw = configFile.read().splitlines()
 config = {}
 for line in configRaw:
