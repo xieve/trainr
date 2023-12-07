@@ -1,5 +1,5 @@
 # trainr
-The first terminal-based vocabulary trainer.
+A terminal-based vocabulary trainer.
 
 ## Requirements
 Trainr uses [TUI](https://github.com/xieve/tui/), a little module for textual user interfaces I wrote myself.
